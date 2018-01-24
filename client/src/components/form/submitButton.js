@@ -6,7 +6,7 @@ class SubmitButton extends Component {
 
     return(
       <div className="form-group col-xs-12">
-        <button type="submit" className="btn btn-primary btn-lg btn-block">Submit</button>
+        <button type="submit" value="Submit" className="btn btn-primary btn-lg btn-block">Submit</button>
       </div>
     );
   }

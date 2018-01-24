@@ -4,7 +4,7 @@ class BusinessOwner extends Component {
   constructor(props){
     super(props);
 
-    this.state= { stage: this.props };
+    this.state= { stage: this.props.stage };
   }
 
   render(){

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
 import WorkflowTracker from './workflowTracker';
+import Fields          from '../fields/fields';
 import SubmitButton    from './submitButton';
-
-import User            from '../user';
-import Manager         from '../manager';
-import BusinessOwner   from '../businessOwner';
 
 class Form extends Component {
   constructor(props) {
@@ -14,17 +11,13 @@ class Form extends Component {
     this.state = { stage: this.props.stage };
    }
 
+   handleOnChange = (data) => {
+     console.log(data);
+   }
+
+
+
   render(){
-    let components = {}
-
-    const user = <div><User stage={ this.state.stage }/></div>
-    const manager = <div>{ user }<Manager stage={ this.state.stage }/></div>
-    const businessOwner = <div>{ manager }<BusinessOwner stage={ this.state.stage }/></div>
-
-    components['user'] = user;
-    components['manager'] = manager;
-    components['businessOwner'] = businessOwner;
-
     return(
       <div className="container">
         <div className="table-row row">
@@ -35,7 +28,7 @@ class Form extends Component {
                   <h1>Form</h1>
                   <p>Fill out all fields.</p>
                 </div>
-                { components[this.state.stage] }
+                <Fields stage={ this.props.stage } onHandleChange={this.handleOnChange}/>
                 <SubmitButton />
               </form>
             </div>

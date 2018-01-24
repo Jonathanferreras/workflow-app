@@ -8,14 +8,14 @@ class App extends Component {
     const home = () => {
       return <Form stage='user'/>
     }
-    const returnJSX = ({ match }) => {
+    const returnStage = ({ match }) => {
       return <Form stage={ match.params.stage } />
     }
 
     return(
       <div>
         <Route exact path="/" component={ home }/>
-        <Route path="/:stage" component={ returnJSX }/>
+        <Route path="/:stage" component={ returnStage }/>
       </div>
     );
   }

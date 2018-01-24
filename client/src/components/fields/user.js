@@ -15,6 +15,18 @@ class User extends Component {
      };
   }
 
+  handleOnChange = (event) => {
+
+    const state = this.state;
+    state[event.target.name] = event.target.value;
+    this.setState(state)
+    console.log(this.state);
+  }
+
+  sendChange = () => {
+    this.props.onHandleChange(this.state);
+  }//Find how to execute this function on submit button press
+
   render(){
     const { bscid, email, firstName, lastName, managerEmail, request } = this.state;
 
@@ -23,7 +35,7 @@ class User extends Component {
         <div>
           <div className="form-group col-xs-6">
             <label htmlFor="bscid">BSC ID</label>
-            <input id="bscid" type="text" name="bscid" value={bscid} className="form-control"/>
+            <input id="bscid" type="text" name="bscid" value={bscid} className="form-control" onChange={this.handleOnChange}/>
           </div>
           <div className="form-group col-xs-6">
             <label htmlFor="email">Email</label>
