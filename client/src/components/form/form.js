@@ -15,7 +15,6 @@ class Form extends Component {
    }
 
   render(){
-    console.log(this.state.stage)
     let components = {}
 
     const user = <div><User stage={ this.state.stage }/></div>
@@ -32,13 +31,17 @@ class Form extends Component {
           <div className="col-xs-8 col-md-8">
             <div className="form-row">
               <form method="post">
+                <div className="col-xs-12">
+                  <h1>Form</h1>
+                  <p>Fill out all fields.</p>
+                </div>
                 { components[this.state.stage] }
                 <SubmitButton />
               </form>
             </div>
           </div>
           <div className="col-xs-4 col-md-4">
-            <WorkflowTracker />
+            <WorkflowTracker stage={ this.state.stage }/>
           </div>
         </div>
       </div>

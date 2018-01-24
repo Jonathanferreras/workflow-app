@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import WorkflowStages from './workflowStages';
 
 class WorkflowTracker extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
-    this.state= { data: [] };
+    this.state= { stage: this.props.stage };
   }
 
   render(){
@@ -18,9 +19,7 @@ class WorkflowTracker extends Component {
         <p>____________</p>
         <label>Status</label>
         <ul className="list-group">
-          <li className="list-group-item active">User Submission</li>
-          <li className="list-group-item disabled">Manager Approval</li>
-          <li className="list-group-item disabled">Business Owner Approval</li>
+          <WorkflowStages stage={this.state.stage}/>
         </ul>
       </div>
     );
