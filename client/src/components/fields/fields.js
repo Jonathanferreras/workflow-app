@@ -5,22 +5,21 @@ import Manager         from './manager';
 import BusinessOwner   from './businessOwner';
 
 class Fields extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { stage: this.props.stage };
-   }
-
    passPropsToParent = (props) => {
      this.props.recievePropsFromChild(props);
    }
 
   render(){
+    var props = {
+      stage:this.props.stage,
+      recievePropsFromChild:this.passPropsToParent
+    }
+
     let components = {}
 
-    const user = <div><User stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
-    const manager = <div>{ user }<Manager stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
-    const businessOwner = <div>{ manager }<BusinessOwner stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
+    const user = <div><User {...props}/></div>
+    const manager = <div>{ user }<Manager {...props}/></div>
+    const businessOwner = <div>{ manager }<BusinessOwner {...props}/></div>
 
     components['user'] = user;
     components['manager'] = manager;
@@ -28,7 +27,7 @@ class Fields extends Component {
 
     return(
       <div>
-        { components[this.state.stage] }
+        { components[this.props.stage] }
       </div>
     );
   }

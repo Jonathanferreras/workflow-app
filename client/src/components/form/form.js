@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import WorkflowTracker from './workflowTracker';
 import Fields          from '../fields/fields';
@@ -11,38 +10,52 @@ class Form extends Component {
 
     this.state = {
       stage: this.props.stage,
-      formData: {}
+      formData: {},
+      key: 1
     };
+
+    this.init = this.state;
    }
+
+   callApi = async () => {
+      const options = {
+        method: 'POST',
+        headers: new Headers({"Content-Type": "application/json"}),
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(this.state.formData)
+      }
+
+      await fetch('/api/formPost', options);
+    };
 
    handlePropsFromChild = (props) => {
      const data = props;
-     this.setState({formData: data});
+     this.setState({ formData: data });
    }
 
    handleSubmit = (event) => {
+     this.callApi()
+     .catch(err => console.log(err));
      event.preventDefault();
-     axios.post({
-       method: 'post',
-       url: '',
-       data: this.state.formData,
-       headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-       }
-     })
-     .then( (response) => {
-       alert(response);
-     })
-     .catch(error => {
-       console.log(error.response)
-     });
-     console.log('posted!');
+     this.resetForm();
+   }
+
+   resetForm = () => {
+     const state = this.state;
+
+     state['key'] = -(this.state.key);
+     this.setState(state);
    }
 
   render(){
+    var props = {
+      stage:this.state.stage,
+      recievePropsFromChild:this.handlePropsFromChild
+    }
+
     return(
-      <div className="container">
+      <div className="container" key={ this.state.key }>
         <div className="table-row row">
           <div className="col-xs-8 col-md-8">
             <div className="form-row">
@@ -51,8 +64,8 @@ class Form extends Component {
                   <h1>Form</h1>
                   <p>Fill out all fields.</p>
                 </div>
-                <Fields stage={ this.props.stage } recievePropsFromChild={ this.handlePropsFromChild }/>
-                <SubmitButton submitBtnPress={ this.handleSubmitBtnPress }/>
+                <Fields {...props } />
+                <SubmitButton/>
               </form>
             </div>
           </div>
