@@ -11,16 +11,16 @@ class Fields extends Component {
     this.state = { stage: this.props.stage };
    }
 
-   handleOnChange = (data) => {
-     this.props.onHandleChange(data);
+   passPropsToParent = (props) => {
+     this.props.recievePropsFromChild(props);
    }
 
   render(){
     let components = {}
 
-    const user = <div><User stage={ this.state.stage } onHandleChange={this.handleOnChange}/></div>
-    const manager = <div>{ user }<Manager stage={ this.state.stage } onHandleChange={this.handleOnChange}/></div>
-    const businessOwner = <div>{ manager }<BusinessOwner stage={ this.state.stage } onHandleChange={this.handleOnChange}/></div>
+    const user = <div><User stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
+    const manager = <div>{ user }<Manager stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
+    const businessOwner = <div>{ manager }<BusinessOwner stage={ this.state.stage } recievePropsFromChild={ this.passPropsToParent }/></div>
 
     components['user'] = user;
     components['manager'] = manager;

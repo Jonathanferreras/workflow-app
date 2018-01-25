@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import WorkflowTracker from './workflowTracker';
 import Fields          from '../fields/fields';
@@ -8,14 +9,36 @@ class Form extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { stage: this.props.stage };
+    this.state = {
+      stage: this.props.stage,
+      formData: {}
+    };
    }
 
-   handleOnChange = (data) => {
-     console.log(data);
+   handlePropsFromChild = (props) => {
+     const data = props;
+     this.setState({formData: data});
    }
 
-
+   handleSubmit = (event) => {
+     event.preventDefault();
+     axios.post({
+       method: 'post',
+       url: '',
+       data: this.state.formData,
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+       }
+     })
+     .then( (response) => {
+       alert(response);
+     })
+     .catch(error => {
+       console.log(error.response)
+     });
+     console.log('posted!');
+   }
 
   render(){
     return(
@@ -23,13 +46,13 @@ class Form extends Component {
         <div className="table-row row">
           <div className="col-xs-8 col-md-8">
             <div className="form-row">
-              <form method="post">
+              <form method="post" onSubmit={ this.handleSubmit }>
                 <div className="col-xs-12">
                   <h1>Form</h1>
                   <p>Fill out all fields.</p>
                 </div>
-                <Fields stage={ this.props.stage } onHandleChange={this.handleOnChange}/>
-                <SubmitButton />
+                <Fields stage={ this.props.stage } recievePropsFromChild={ this.handlePropsFromChild }/>
+                <SubmitButton submitBtnPress={ this.handleSubmitBtnPress }/>
               </form>
             </div>
           </div>
