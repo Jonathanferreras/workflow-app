@@ -17,7 +17,7 @@ class Form extends Component {
     this.init = this.state;
    }
 
-   callApi = async () => {
+  callApi = async () => {
       const options = {
         method: 'POST',
         headers: new Headers({"Content-Type": "application/json"}),
@@ -29,19 +29,20 @@ class Form extends Component {
       await fetch('/api/formPost', options);
     };
 
-   handlePropsFromChild = (props) => {
+  handlePropsFromChild = (props) => {
      const data = props;
      this.setState({ formData: data });
    }
 
-   handleSubmit = (event) => {
+  handleSubmit = (event) => {
      this.callApi()
-     .catch(err => console.log(err));
+     .catch(err => alert("Oops an error occurred!"));
      event.preventDefault();
+     alert("Your form has been submitted!")
      this.resetForm();
    }
 
-   resetForm = () => {
+  resetForm = () => {
      const state = this.state;
 
      state['key'] = -(this.state.key);
