@@ -16,6 +16,27 @@ class User extends Component {
      this.init = this.state;
   }
 
+  componentWillMount(){
+    if(this.props.stage !== 'user')
+      this.getData()
+  }
+
+  getData = async () => {
+    await fetch('/api/getData')
+    .then(res => { return res.json()})
+    .then(data => {
+       const state = this.state;
+       state['bscid'] = data.bscid;
+       state['email'] = data.email;
+       state['firstName'] = data.firstName;
+       state['lastName'] = data.lastName;
+       state['managerEmail'] = data.managerEmail;
+       state['request'] = data.request;
+
+       this.setState(state);
+    });
+  }
+
   passPropsToParent = (event) => {
     const state = this.state;
     state[event.target.name] = event.target.value;
@@ -59,15 +80,15 @@ class User extends Component {
         <div>
           <div className="form-group col-xs-6">
             <label htmlFor="bscid">BSC ID</label><br />
-            <input id="bscid" type="text" readOnly defaultValue={ this.state.bscid } className="form-control" />
+            <input id="bscid" type="text" readOnly value={ this.state.bscid } className="form-control" />
           </div>
           <div className="form-group col-xs-6">
             <label htmlFor="name">Name</label><br />
-            <input id="name" type="text" readOnly defaultValue={ this.state.firstName+' '+this.state.lastName } className="form-control" />
+            <input id="name" type="text" readOnly value={ this.state.firstName+' '+this.state.lastName } className="form-control" />
           </div>
           <div className="form-group col-xs-12">
             <label htmlFor="request">Request</label><br />
-            <textarea id="request" rows={3} readOnly className="form-control" defaultValue={ this.state.request } />
+            <textarea id="request" rows={3} readOnly className="form-control" value={ this.state.request } />
           </div>
         </div>
       );

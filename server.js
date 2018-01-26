@@ -1,7 +1,8 @@
 const express = require('express');
 const path    = require('path');
 const request = require('request');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const config = require('./config');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -10,9 +11,42 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+app.get('/api/getData', function(req, res){
+  const formid = "hello";
+  var data;
 
-app.post('/api/formPost', function(req, res){
-  console.log(req.body);
+  var postUrl = config.urls.getData;
+  var options = {
+    url: postUrl,
+    method: "POST",
+    json: true,
+    body: {}
+  }
+
+  function getData(){
+    return new Promise(function(resolve, reject) {
+      request(options, function (err, httpResponse, body){
+        if(err) {
+          return console.error('failed! '+err);
+        }
+        data = JSON.stringify(body)
+        resolve(data);
+      });
+    });
+  }
+
+  async function run(){
+    var response = await getData();
+    console.log(response)
+      res.send(response);
+  }
+
+  run();
+})
+
+
+app.post('/api/postForm', function(req, res){
+  console.log("Form: " + JSON.stringify(req.body));
 });
 
 // app.get('*', (req, res) => {

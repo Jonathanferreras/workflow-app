@@ -17,36 +17,36 @@ class Form extends Component {
     this.init = this.state;
    }
 
-  callApi = async () => {
-      const options = {
-        method: 'POST',
-        headers: new Headers({"Content-Type": "application/json"}),
-        mode: 'cors',
-        cache: 'default',
-        body: JSON.stringify(this.state.formData)
-      }
+  postData = async () => {
+    const options = {
+      method: 'POST',
+      headers: new Headers({"Content-Type": "application/json"}),
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify(this.state.formData)
+    }
 
-      await fetch('/api/formPost', options);
+    await fetch('/api/postForm', options)
+    .catch(err => alert("Oops an error occurred!"));
     };
 
   handlePropsFromChild = (props) => {
-     const data = props;
-     this.setState({ formData: data });
+    const data = props;
+    this.setState({ formData: data });
    }
 
   handleSubmit = (event) => {
-     this.callApi()
-     .catch(err => alert("Oops an error occurred!"));
-     event.preventDefault();
-     alert("Your form has been submitted!")
-     this.resetForm();
+    event.preventDefault();
+    this.postData();
+    alert("Your form has been submitted!")
+    this.resetForm();
    }
 
   resetForm = () => {
-     const state = this.state;
+    const state = this.state;
 
-     state['key'] = -(this.state.key);
-     this.setState(state);
+    state['key'] = -(this.state.key);
+    this.setState(state);
    }
 
   render(){
