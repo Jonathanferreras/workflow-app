@@ -11,16 +11,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('/api/getData', function(req, res){
-  const formid = "hello";
+app.post('/api/getData', function(req, res){
+  const formid = req.body.id;
   var data;
+  console.log(req.body)
 
   var postUrl = config.urls.getData;
   var options = {
     url: postUrl,
     method: "POST",
     json: true,
-    body: {}
+    body: { id:formid }
   }
 
   function getData(){

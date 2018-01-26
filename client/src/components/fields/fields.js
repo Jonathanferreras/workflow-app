@@ -11,8 +11,10 @@ class Fields extends Component {
 
   render(){
     var props = {
-      stage:this.props.stage,
-      recievePropsFromChild:this.passPropsToParent
+      id: this.props.id,
+      stage: this.props.stage,
+      pastFormData: this.props.pastFormData,
+      recievePropsFromChild: this.passPropsToParent
     }
 
     let components = {}

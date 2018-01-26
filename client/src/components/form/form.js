@@ -11,10 +11,43 @@ class Form extends Component {
     this.state = {
       stage: this.props.stage,
       formData: {},
+      pastFormData: {},
+      error404: false,
       key: 1
     };
 
     this.init = this.state;
+  }
+
+  componentWillMount(){
+    if(this.props.stage !== 'user')
+      this.getData();
+  }
+
+  getData = async () => {
+    const options = {
+      method: 'POST',
+      headers: new Headers({"Content-Type": "application/json"}),
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify({ id : this.props.id })
+   }
+
+    await fetch('/api/getData', options)
+    .then(res => { return res.json() })
+    .then(data => {
+      if(data.error){
+        const state = this.state;
+        state['error404'] = true;
+        this.setState(state)
+      }
+      else {
+        const state = this.state;
+        state['pastFormData'] = data;
+        this.setState(state);
+      }
+    });
+    this.resetForm();
    }
 
   postData = async () => {
@@ -51,31 +84,38 @@ class Form extends Component {
 
   render(){
     var props = {
-      stage:this.state.stage,
-      recievePropsFromChild:this.handlePropsFromChild
+      id: this.props.id,
+      pastFormData: this.state.pastFormData,
+      stage: this.state.stage,
+      recievePropsFromChild: this.handlePropsFromChild
     }
-
-    return(
-      <div className="container" key={ this.state.key }>
-        <div className="table-row row">
-          <div className="col-xs-8 col-md-8">
-            <div className="form-row">
-              <form method="post" onSubmit={ this.handleSubmit }>
-                <div className="col-xs-12">
-                  <h1>Form</h1>
-                  <p>Fill out all fields.</p>
-                </div>
-                <Fields {...props } />
-                <SubmitButton/>
-              </form>
+    if(this.state.error404){
+      return(<div>404, This form request is invalid</div>)
+    }
+    else {
+      return(
+        <div className="container" key={ this.state.key }>{/* Used to reset form fields */}
+          <div className="table-row row">
+            <div className="col-xs-8 col-md-8">
+              <div className="form-row">
+                <form method="post" onSubmit={ this.handleSubmit }>
+                  <div className="col-xs-12">
+                    <h1>Form</h1>
+                    <p>Fill out all fields.</p>
+                  </div>
+                  <Fields {...props } />
+                  <SubmitButton/>
+                </form>
+              </div>
+            </div>
+            <div className="col-xs-4 col-md-4">
+              <WorkflowTracker stage={ this.state.stage }/>
             </div>
           </div>
-          <div className="col-xs-4 col-md-4">
-            <WorkflowTracker stage={ this.state.stage }/>
-          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
   }
 }
 

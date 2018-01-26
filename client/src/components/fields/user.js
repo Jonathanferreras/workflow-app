@@ -16,25 +16,21 @@ class User extends Component {
      this.init = this.state;
   }
 
-  componentWillMount(){
+  componentDidMount(){
     if(this.props.stage !== 'user')
-      this.getData()
+      this.setPastData()
   }
 
-  getData = async () => {
-    await fetch('/api/getData')
-    .then(res => { return res.json()})
-    .then(data => {
-       const state = this.state;
-       state['bscid'] = data.bscid;
-       state['email'] = data.email;
-       state['firstName'] = data.firstName;
-       state['lastName'] = data.lastName;
-       state['managerEmail'] = data.managerEmail;
-       state['request'] = data.request;
+  setPastData = () => {
+    const state = this.state;
+    state['bscid'] = this.props.pastFormData.bscid;
+    state['email'] = this.props.pastFormData.email;
+    state['firstName'] = this.props.pastFormData.firstName;
+    state['lastName'] = this.props.pastFormData.lastName;
+    state['managerEmail'] = this.props.pastFormData.managerEmail;
+    state['request'] = this.props.pastFormData.request;
 
-       this.setState(state);
-    });
+    this.setState(state);
   }
 
   passPropsToParent = (event) => {
@@ -80,7 +76,7 @@ class User extends Component {
         <div>
           <div className="form-group col-xs-6">
             <label htmlFor="bscid">BSC ID</label><br />
-            <input id="bscid" type="text" readOnly value={ this.state.bscid } className="form-control" />
+            <input id="bscid" type="text" readOnly value={ this.state.bscid } className="form-control"  />
           </div>
           <div className="form-group col-xs-6">
             <label htmlFor="name">Name</label><br />
