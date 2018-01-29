@@ -22,7 +22,7 @@ class Table extends Component {
             <th style={Style.th}>Remove</th>
           </tr>
         </thead>
-        <TableEntries />
+        <TableEntries {...this.props }/>
       </table>
     );
   }

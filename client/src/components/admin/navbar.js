@@ -9,6 +9,13 @@ class Navbar extends Component {
     }
   }
 
+  componentWillMount(){
+    if(this.props.forms.length > 0){
+      const state = this.state;
+      state['notifications'] = (this.props.forms.length).toString();
+    }
+  }
+
   render(){
     const Style = {
       nav: {

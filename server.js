@@ -3,6 +3,7 @@ const path    = require('path');
 const request = require('request');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const sortJsonArray = require('sort-json-array')
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -11,12 +12,24 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.post('/api/getData', function(req, res){
-  const formid = req.body.id;
-  var data;
-  console.log(req.body)
+function getData(options){
+  return new Promise(function(resolve, reject) {
+    request(options, function (err, httpResponse, body){
+      if(err) {
+        return console.error('failed! '+err);
+      }
+      data = body
+      resolve(data);
+    });
+  });
+}
 
-  var postUrl = config.urls.getData;
+
+app.post('/api/getForm', function(req, res){
+  console.log('/api/getForm');
+  const formid = req.body.id;
+
+  var postUrl = config.logicApp.getDocument;
   var options = {
     url: postUrl,
     method: "POST",
@@ -24,22 +37,27 @@ app.post('/api/getData', function(req, res){
     body: { id:formid }
   }
 
-  function getData(){
-    return new Promise(function(resolve, reject) {
-      request(options, function (err, httpResponse, body){
-        if(err) {
-          return console.error('failed! '+err);
-        }
-        data = JSON.stringify(body)
-        resolve(data);
-      });
-    });
+  async function run(){
+    var response = await getData(options);
+      res.send(JSON.stringify(response));
+  }
+
+  run();
+})
+
+app.post('/api/getAllForms', function(req, res){
+  console.log('/api/getAllForms');
+  var postUrl = config.logicApp.getAllDocuments;
+  var options = {
+    url: postUrl,
+    method: "POST",
   }
 
   async function run(){
-    var response = await getData();
-    console.log(response)
-      res.send(response);
+    var response = await getData(options);
+    var documents = JSON.parse(response)
+    sortedDocuments = sortJsonArray(documents, '_ts', 'des');
+    res.send(sortedDocuments);
   }
 
   run();
@@ -47,6 +65,7 @@ app.post('/api/getData', function(req, res){
 
 
 app.post('/api/postForm', function(req, res){
+  console.log('/api/postForm');
   console.log("Form: " + JSON.stringify(req.body));
 });
 

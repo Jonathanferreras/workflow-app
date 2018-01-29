@@ -10,18 +10,11 @@ class Fields extends Component {
    }
 
   render(){
-    var props = {
-      id: this.props.id,
-      stage: this.props.stage,
-      pastFormData: this.props.pastFormData,
-      recievePropsFromChild: this.passPropsToParent
-    }
-
     let components = {}
 
-    const user = <div><User {...props}/></div>
-    const manager = <div>{ user }<Manager {...props}/></div>
-    const businessOwner = <div>{ manager }<BusinessOwner {...props}/></div>
+    const user = <div><User {...this.props}/></div>
+    const manager = <div>{ user }<Manager {...this.props}/></div>
+    const businessOwner = <div>{ manager }<BusinessOwner {...this.props}/></div>
 
     components['user'] = user;
     components['manager'] = manager;

@@ -33,7 +33,7 @@ class Form extends Component {
       body: JSON.stringify({ id : this.props.id })
    }
 
-    await fetch('/api/getData', options)
+    await fetch('/api/getForm', options)
     .then(res => { return res.json() })
     .then(data => {
       if(data.error){
