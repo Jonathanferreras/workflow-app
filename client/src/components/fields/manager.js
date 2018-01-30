@@ -13,17 +13,16 @@ class Manager extends Component {
 
   passPropsToParent = (event) => {
     const id = event.target.id;
-    console.log(id)
     if (id === 'comment'){
       const state = this.state;
-
-      state[id] = event.target.value;
+      state[id] = event.target.value
+      
       this.setState(state);
     }
     else {
       const state = this.state;
-
       state[event.target.name] = id;
+
       this.setState(state);
     }
 

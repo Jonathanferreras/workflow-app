@@ -21,10 +21,10 @@ class Form extends Component {
 
   componentWillMount(){
     if(this.props.stage !== 'user')
-      this.getData();
+      this.getForm();
   }
 
-  getData = async () => {
+  getForm = async () => {
     const options = {
       method: 'POST',
       headers: new Headers({"Content-Type": "application/json"}),
@@ -37,49 +37,46 @@ class Form extends Component {
     .then(res => { return res.json() })
     .then(data => {
       if(data.error){
-        const state = this.state;
-        state['error404'] = true;
-        this.setState(state)
+        this.setState({error404: true})
       }
       else {
-        const state = this.state;
-        state['pastFormData'] = data;
-        this.setState(state);
+        this.setState({pastFormData: data});
       }
     });
-    this.resetForm();
    }
 
-  postData = async () => {
+  postForm = () => {
+    var dt = new Date();
+    var utcDate = dt.toUTCString();
+
+    var state = this.state.formData;
+    state['date'] = utcDate;
     const options = {
       method: 'POST',
       headers: new Headers({"Content-Type": "application/json"}),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify(this.state.formData)
+      body: JSON.stringify(state)
     }
 
-    await fetch('/api/postForm', options)
+    fetch('/api/postForm', options)
     .catch(err => alert("Oops an error occurred!"));
-    };
+  };
 
   handlePropsFromChild = (props) => {
-    const data = props;
-    this.setState({ formData: data });
+    this.setState({ formData: props});
    }
 
   handleSubmit = (event) => {
+    console.log("submitting")
     event.preventDefault();
-    this.postData();
+    this.postForm();
     alert("Your form has been submitted!")
     this.resetForm();
    }
 
   resetForm = () => {
-    const state = this.state;
-
-    state['key'] = -(this.state.key);
-    this.setState(state);
+    this.setState({key: -(this.state.key)});
    }
 
   render(){
@@ -115,7 +112,6 @@ class Form extends Component {
         </div>
       );
     }
-
   }
 }
 

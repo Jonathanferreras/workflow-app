@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 
 class Navbar extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
-      notifications: "0"
+      newSubmissions: 0,
+      submissions: 0
     }
   }
 
-  componentWillMount(){
-    if(this.props.forms.length > 0){
-      const state = this.state;
-      state['notifications'] = (this.props.forms.length).toString();
-    }
+  componentWillReceiveProps(nextProps){
+    this.setState({submissions: nextProps.forms.length})
   }
 
   render(){
@@ -27,7 +25,7 @@ class Navbar extends Component {
       title: {
         float: "left"
       },
-      notifications: {
+      newSubmissions: {
         backgroundColor: "#ff6b6b",
         height: "2em",
         width: "2em",
@@ -37,7 +35,7 @@ class Navbar extends Component {
         borderRadius: "25px",
         border: "0.5px solid #576574"
       },
-      text: {
+      newSubmissionsTex: {
         fontSize: "0.7em"
       },
       refresh: {
@@ -49,6 +47,11 @@ class Navbar extends Component {
       },
       search: {
         float:"right"
+      },
+      submissions: {
+        color: 'black',
+        paddingLeft: '0.8em',
+        fontSize: '1.5em'
       }
     }
 
@@ -56,9 +59,9 @@ class Navbar extends Component {
       <div style={ Style.nav }>
         <nav className="navbar">
           <h1 style={ Style.title }>Admin</h1>
-          <div style={ Style.notifications }>
-            <span style={ Style.text }>
-              { this.state.notifications }
+          <div style={ Style.newSubmissions }>
+            <span style={ Style.newSubmissionsText }>
+              { this.state.newSubmissions }
             </span>
           </div>
           <div style={ Style.refresh } >
@@ -67,10 +70,13 @@ class Navbar extends Component {
               <i className="fa fa-refresh"></i>
             </button>
           </div>
-          <div style={Style.search}>
+          <div style={ Style.search }>
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
           </div>
         </nav>
+        <div style={ Style.submissions }>
+          <span>Submissions: { this.state.submissions } </span>
+        </div>
       </div>
     );
   }

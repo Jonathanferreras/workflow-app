@@ -19,6 +19,7 @@ class Table extends Component {
             <th style={Style.th}>BSCID</th>
             <th style={Style.th}>Name</th>
             <th style={Style.th}>Request</th>
+            <th style={Style.th}>Date</th>
             <th style={Style.th}>Remove</th>
           </tr>
         </thead>

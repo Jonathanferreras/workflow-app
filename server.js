@@ -6,6 +6,7 @@ const config = require('./config');
 const sortJsonArray = require('sort-json-array')
 
 const app = express();
+var queue =[]
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
@@ -24,9 +25,9 @@ function getData(options){
   });
 }
 
-
 app.post('/api/getForm', function(req, res){
   console.log('/api/getForm');
+  console.log(req.body)
   const formid = req.body.id;
 
   var postUrl = config.logicApp.getDocument;
@@ -63,11 +64,45 @@ app.post('/api/getAllForms', function(req, res){
   run();
 })
 
-
 app.post('/api/postForm', function(req, res){
   console.log('/api/postForm');
-  console.log("Form: " + JSON.stringify(req.body));
+  console.log(req.body)
+
+  var postUrl = config.logicApp.postDocument;
+  var options = {
+    url: postUrl,
+    method: "POST",
+    json: true,
+    body: req.body
+  }
+
+  async function run(){
+    var response = await getData(options);
+    console.log(response)
+  }
+
+  run();
 });
+
+app.post('/api/deleteForm', function(req, res){
+  console.log('/api/deleteForm');
+  console.log(req.body)
+
+  var postUrl = config.logicApp.deleteDocument;
+  var options = {
+    url: postUrl,
+    method: "POST",
+    json: true,
+    body: req.body
+  }
+
+  async function run(){
+    var response = await getData(options);
+    console.log(response)
+  }
+
+  run();
+})
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname+'/client/build/index.html'));

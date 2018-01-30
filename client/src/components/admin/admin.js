@@ -9,13 +9,16 @@ class Admin extends Component {
 
     this.state = {
       forms: '',
+      newForms: '',
+      count: 0,
       key: 1
     }
   }
   componentWillMount(){
-    this.getAllData();
+    this.getAllForms();
   }
-  getAllData = async () => {
+
+  getAllForms = async () => {
     const options = {
       method: 'POST',
       headers: new Headers(),
@@ -27,24 +30,16 @@ class Admin extends Component {
     .then(res => { return res.json() })
     .then(data => {
       if(data.error){
-        const state = this.state;
-        state['error404'] = true;
-        this.setState(state)
+        this.setState({error404: true})
       }
       else {
-        const state = this.state;
-        state['forms'] = data;
-        this.setState(data);
+        this.setState({forms: data});
       }
     });
-    this.resetForm();
   }
 
   resetForm = () => {
-    const state = this.state;
-
-    state['key'] = -(this.state.key);
-    this.setState(state);
+    this.setState({key: -(this.state.key)});
    }
 
   render(){

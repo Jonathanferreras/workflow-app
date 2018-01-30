@@ -16,26 +16,22 @@ class User extends Component {
      this.init = this.state;
   }
 
-  componentDidMount(){
-    if(this.props.stage !== 'user')
-      this.setPastData()
-  }
-
-  setPastData = () => {
-    const state = this.state;
-    state['bscid'] = this.props.pastFormData.bscid;
-    state['email'] = this.props.pastFormData.email;
-    state['firstName'] = this.props.pastFormData.firstName;
-    state['lastName'] = this.props.pastFormData.lastName;
-    state['managerEmail'] = this.props.pastFormData.managerEmail;
-    state['request'] = this.props.pastFormData.request;
-
-    this.setState(state);
+  componentWillReceiveProps(nextProps){
+    if(this.props.stage !== 'user'){
+      this.setState({
+        bscid: nextProps.pastFormData.bscid,
+        email: nextProps.pastFormData.email,
+        firstName: nextProps.pastFormData.firstName,
+        lastName: nextProps.pastFormData.lastName,
+        managerEmail: nextProps.pastFormData.managerEmail,
+        request: nextProps.pastFormData.request
+      });
+    }
   }
 
   passPropsToParent = (event) => {
     const state = this.state;
-    state[event.target.name] = event.target.value;
+    state[event.target.name] = event.target.value
 
     this.setState(state)
     this.props.recievePropsFromChild(this.state);
@@ -71,7 +67,8 @@ class User extends Component {
           </div>
         </div>
       );
-    } else {
+    }
+    else {
       return(
         <div>
           <div className="form-group col-xs-6">
