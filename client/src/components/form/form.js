@@ -27,20 +27,21 @@ class Form extends Component {
   getForm = async () => {
     const options = {
       method: 'POST',
-      headers: new Headers({"Content-Type": "application/json"}),
+      headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({ id : this.props.id })
+      body: JSON.stringify({ id : this.props.id, action: 'getDocument' })
    }
 
-    await fetch('/api/getForm', options)
+    await fetch('/api', options)
     .then(res => { return res.json() })
     .then(data => {
       if(data.error){
+        console.log(data)
         this.setState({error404: true})
       }
       else {
-        this.setState({pastFormData: data});
+        this.setState({ pastFormData: data });
       }
     });
    }
@@ -51,20 +52,22 @@ class Form extends Component {
 
     var state = this.state.formData;
     state['date'] = utcDate;
+    state['action'] = 'createDocument'
+
     const options = {
       method: 'POST',
-      headers: new Headers({"Content-Type": "application/json"}),
+      headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify(state)
     }
 
-    fetch('/api/postForm', options)
+    fetch('/api', options)
     .catch(err => alert("Oops an error occurred!"));
   };
 
   handlePropsFromChild = (props) => {
-    this.setState({ formData: props});
+    this.setState({ formData: props });
    }
 
   handleSubmit = (event) => {
@@ -76,7 +79,7 @@ class Form extends Component {
    }
 
   resetForm = () => {
-    this.setState({key: -(this.state.key)});
+    this.setState({ key: -(this.state.key) });
    }
 
   render(){

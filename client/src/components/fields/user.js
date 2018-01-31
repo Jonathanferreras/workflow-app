@@ -19,12 +19,12 @@ class User extends Component {
   componentWillReceiveProps(nextProps){
     if(this.props.stage !== 'user'){
       this.setState({
-        bscid: nextProps.pastFormData.bscid,
-        email: nextProps.pastFormData.email,
-        firstName: nextProps.pastFormData.firstName,
-        lastName: nextProps.pastFormData.lastName,
-        managerEmail: nextProps.pastFormData.managerEmail,
-        request: nextProps.pastFormData.request
+        bscid: nextProps.pastFormData.form.bscid,
+        email: nextProps.pastFormData.form.email,
+        firstName: nextProps.pastFormData.form.firstName,
+        lastName: nextProps.pastFormData.form.lastName,
+        managerEmail: nextProps.pastFormData.form.managerEmail,
+        request: nextProps.pastFormData.form.request
       });
     }
   }

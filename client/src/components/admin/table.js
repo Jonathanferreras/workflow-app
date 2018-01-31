@@ -3,6 +3,13 @@ import React, { Component } from 'react';
 import TableEntries from './tableEntries';
 
 class Table extends Component {
+  recievePropsFromChild(childProps){
+    this.passPropsToParent(childProps)
+  }
+
+  handledeleteForm(formid){
+    this.deleteForm(formid)
+  }
   render(){
     const Style = {
       table: {

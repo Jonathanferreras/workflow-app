@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class TableEntries extends Component {
-
   render(){
     const forms = this.props.forms;
     const formList = []
@@ -9,15 +8,7 @@ class TableEntries extends Component {
     var handleDelete = (e) =>{
       const formid = e.target.value
 
-      const options = {
-        method: 'POST',
-        headers: new Headers({"Content-Type": "application/json"}),
-        mode: 'cors',
-        cache: 'default',
-        body: JSON.stringify({id: formid})
-      }
-
-      fetch('/api/deleteForm', options)
+      this.props.deleteForm(formid);
     }
 
     if(forms.length > 0){
@@ -45,8 +36,6 @@ class TableEntries extends Component {
         </tfoot>
       );
     }
-
-
   }
 }
 

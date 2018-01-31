@@ -19,7 +19,7 @@ class Fields extends Component {
     components['user'] = user;
     components['manager'] = manager;
     components['businessOwner'] = businessOwner;
-
+ 
     return(
       <div>
         { components[this.props.stage] }

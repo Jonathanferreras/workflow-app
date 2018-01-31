@@ -16,7 +16,7 @@ class Manager extends Component {
     if (id === 'comment'){
       const state = this.state;
       state[id] = event.target.value
-      
+
       this.setState(state);
     }
     else {
