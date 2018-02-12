@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 import WorkflowTracker from './workflowTracker';
 import Fields          from '../fields/fields';
 import SubmitButton    from './submitButton';
@@ -52,7 +53,14 @@ class Form extends Component {
 
     var state = this.state.formData;
     state['date'] = utcDate;
-    state['action'] = 'createDocument'
+    if(this.state.stage !== 'user'){
+      state['action'] = 'updateDocument'
+    }
+    else{
+      state['action'] = 'createDocument'
+    }
+
+    state['stage'] = this.props.stage
 
     const options = {
       method: 'POST',
@@ -67,7 +75,20 @@ class Form extends Component {
   };
 
   handlePropsFromChild = (props) => {
-    this.setState({ formData: props });
+    const state = this.state.pastFormData
+    console.log(state['form'])
+    console.log(props)
+
+    function merge (a, b) {
+      for(var key in props) {
+        if(props.hasOwnProperty(key)) state[key] = props[key]
+      }
+      return state
+    }
+
+    var newFormData = merge(state['form'], props)
+    this.setState({ formData: newFormData });
+    console.log(this.state.newFormData)
    }
 
   handleSubmit = (event) => {

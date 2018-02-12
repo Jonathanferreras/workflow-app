@@ -43,7 +43,7 @@ class User extends Component {
         <div>
           <div className="form-group col-xs-6">
             <label htmlFor="bscid">BSC ID</label>
-            <input id="bscid" type="text" name="bscid" value={ this.state.bscid } className="form-control" onChange={ this.passPropsToParent }/>
+            <input id="bscid" type="text" name="bscid" value={ this.state.bscid }R className="form-control" onChange={ this.passPropsToParent }/>
           </div>
           <div className="form-group col-xs-6">
             <label htmlFor="email">Email</label>

@@ -11,14 +11,24 @@ class Admin extends Component {
       forms: '',
       newForms: '',
       count: 0,
-      key: 1
+      key: 1,
+      state: false
     }
   }
   componentWillMount(){
-    this.getAllForms()
+    const state = this.state.state
+    this.getAllForms(state)
   }
 
-  getAllForms = async () => {
+  componentDidMount(){
+    const state = !(this.state.state)
+    setInterval(() => {
+      this.getAllForms(state)
+      console.log('checking...');
+    }, 5000)
+  }
+
+  getAllForms = async (state) => {
     const options = {
       method: 'POST',
       headers: new Headers({ "Content-Type": "application/json" }),
@@ -26,34 +36,55 @@ class Admin extends Component {
       cache: 'default',
       body: JSON.stringify({action: 'getAllDocuments'})
    }
-
-    await fetch('/api', options)
-    .then(res => { return res.json() })
-    .then(data => {
-      if(data.error){
-        this.setState({error404: true})
-      }
-      else {
-        this.setState({forms: data})
-      }
-    })
+    if(state){
+      await fetch('/api', options)
+      .then(res => { return res.json() })
+      .then(data => {
+        if(data.error){
+          this.setState({error404: true})
+        }
+        else {
+          if(data.length > this.state.forms.length)
+            this.setState({newForms: data})
+        }
+      })
+    }
+    else {
+      await fetch('/api', options)
+      .then(res => { return res.json() })
+      .then(data => {
+        if(data.error){
+          this.setState({error404: true})
+        }
+        else {
+          this.setState({forms: data})
+        }
+      })
+    }
   }
 
-  deleteForm = async () => { }
-
-  handleDeleteForm(id){
+  handleDeleteForm = (id) => {
     const formid = id
     const options = {
       method: 'POST',
-      headers: new Headers(),
+      headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify({id: formid, action: 'deleteDocument'})
    }
+
    fetch('/api', options)
+   alert("form deleted!")
   }
 
+  handleRemoveEntry = (props) => {
+    this.setState({ forms: props })
+  }
 
+  handleUpdateForms = (props) => {
+    alert('updating')
+    this.getAllForms()
+  }
 
   resetForm = () => {
     this.setState({key: -(this.state.key)})
@@ -69,8 +100,10 @@ class Admin extends Component {
 
     var props = {
       forms: this.state.forms,
-      recievePropsFromChild: this.handlePropsFromChild,
-      deleteForm: this.handleDeleteForm
+      newForms: this.state.newForms,
+      deleteForm: this.handleDeleteForm,
+      removeEntry: this.handleRemoveEntry,
+      updateForms: this.handleUpdateForms,
     }
 
     return(

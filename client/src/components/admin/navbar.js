@@ -11,7 +11,18 @@ class Navbar extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    this.setState({submissions: nextProps.forms.length})
+    const formsLen = nextProps.forms.length
+
+    if(nextProps.newForms.length > this.state.submissions){
+      const newFormsLen = (nextProps.newForms.length - nextProps.forms.length)
+      this.setState({newSubmissions: newFormsLen})
+    }
+
+    this.setState({submissions: formsLen})
+  }
+
+  handleClick = () => {
+    this.props.updateForms()
   }
 
   render(){
@@ -65,7 +76,7 @@ class Navbar extends Component {
             </span>
           </div>
           <div style={ Style.refresh } >
-            <button className="btn" style={ Style.refreshBtn }>
+            <button className="btn" style={ Style.refreshBtn } onClick={this.handleClick} >
               <span>Refresh &nbsp;</span>
               <i className="fa fa-refresh"></i>
             </button>

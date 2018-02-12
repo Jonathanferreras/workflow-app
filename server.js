@@ -6,7 +6,6 @@ const config = require('./config')
 const sortJsonArray = require('sort-json-array')
 
 const app = express()
-var queue =[]
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
@@ -40,6 +39,7 @@ app.post('/api', (req, res) => {
 
   async function run() {
     var response = await getData(options)
+
     switch (action) {
       case 'createDocument':
         console.log(response)
@@ -56,19 +56,25 @@ app.post('/api', (req, res) => {
         res.send(JSON.stringify(sortedDocuments))
 
         break
-      case 'deleteDocument':
+      case 'updateDocument':
+        console.log(response)
 
+        break
+      case 'deleteDocument':
+        console.log(response)
         break
       default:
         console.log('Sorry, unable to process api call')
     }
   }
+
 run()
 })
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname+'/client/build/index.html'))
-// })
+app.get('/', (req, res) => {
+  console.log('client')
+  // res.sendFile(path.join(__dirname+'/client/build/index.html'))
+})
 
 const port = process.env.PORT || 3001
 app.listen(port)

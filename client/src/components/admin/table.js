@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import TableEntries from './tableEntries';
 
 class Table extends Component {
-  recievePropsFromChild(childProps){
+  receivePropsFromChild(childProps){
     this.passPropsToParent(childProps)
   }
 
@@ -26,6 +26,7 @@ class Table extends Component {
             <th style={Style.th}>BSCID</th>
             <th style={Style.th}>Name</th>
             <th style={Style.th}>Request</th>
+            <th style={Style.th}>Stage</th>
             <th style={Style.th}>Date</th>
             <th style={Style.th}>Remove</th>
           </tr>
