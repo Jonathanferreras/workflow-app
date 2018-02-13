@@ -31,14 +31,14 @@ class Form extends Component {
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({ id : this.props.id, action: 'getDocument' })
+      body: JSON.stringify({ guid : this.props.id, action: 'SEND_FORM_DATA' })
    }
 
     await fetch('/api', options)
     .then(res => { return res.json() })
     .then(data => {
+      console.log(data)
       if(data.error){
-        console.log(data)
         this.setState({error404: true})
       }
       else {
@@ -49,15 +49,15 @@ class Form extends Component {
 
   postForm = () => {
     var dt = new Date();
-    var utcDate = dt.toUTCString();
+    var utcDate = dt.toISOString();
 
     var state = this.state.formData;
-    state['date'] = utcDate;
+    state['time_stamp'] = utcDate;
     if(this.state.stage !== 'user'){
-      state['action'] = 'updateDocument'
+      state['action'] = 'UPDATE_FORM_DATA'
     }
     else{
-      state['action'] = 'createDocument'
+      state['action'] = 'STORE_FORM_DATA'
     }
 
     state['stage'] = this.props.stage

@@ -11,10 +11,10 @@ class Navbar extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const formsLen = nextProps.forms.length
+    const formsLen = nextProps.forms.FORMS.length
 
     if(nextProps.newForms.length > this.state.submissions){
-      const newFormsLen = (nextProps.newForms.length - nextProps.forms.length)
+      const newFormsLen = (nextProps.newForms.length - nextProps.forms.FORMS.length)
       this.setState({newSubmissions: newFormsLen})
     }
 

@@ -21,11 +21,11 @@ class Admin extends Component {
   }
 
   componentDidMount(){
-    const state = !(this.state.state)
-    setInterval(() => {
-      this.getAllForms(state)
-      console.log('checking...');
-    }, 5000)
+    // const state = !(this.state.state)
+    // setInterval(() => {
+    //   this.getAllForms(state)
+    //   console.log('checking...');
+    // }, 5000)
   }
 
   getAllForms = async (state) => {
@@ -34,7 +34,7 @@ class Admin extends Component {
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({action: 'getAllDocuments'})
+      body: JSON.stringify({action: 'SEND_ALL_FORM_DATA'})
    }
     if(state){
       await fetch('/api', options)
@@ -53,6 +53,7 @@ class Admin extends Component {
       await fetch('/api', options)
       .then(res => { return res.json() })
       .then(data => {
+        // console.log(data)
         if(data.error){
           this.setState({error404: true})
         }
@@ -63,14 +64,14 @@ class Admin extends Component {
     }
   }
 
-  handleDeleteForm = (id) => {
-    const formid = id
+  handleDeleteForm = (guid) => {
+    const formid = guid
     const options = {
       method: 'POST',
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({id: formid, action: 'deleteDocument'})
+      body: JSON.stringify({ guid: formid, action: 'DELETE_FORM_DATA' })
    }
 
    fetch('/api', options)

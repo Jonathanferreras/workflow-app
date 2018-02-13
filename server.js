@@ -24,10 +24,22 @@ function getData(options){
   })
 }
 
+function jsonParser(json, root){
+  if (root == "FORM") {
+    json[root] = JSON.parse(json[root].replace(/[\[\]']+/g,''))
+
+  } else if (root == "FORMS"){
+    json[root] = sortJsonArray(JSON.parse(json[root]), 'TIME_STAMP', 'des')
+  }
+
+  return json
+}
+
 app.post('/api', (req, res) => {
   const body = req.body
   const action = body.action
   console.log('/api/'+action)
+  console.log(body)
 
   const url = config.logicApp
   const options = {
@@ -39,30 +51,39 @@ app.post('/api', (req, res) => {
 
   async function run() {
     var response = await getData(options)
-
+    console.log('Data recieved: ' + JSON.stringify(response))
     switch (action) {
-      case 'createDocument':
-        console.log(response)
+      case 'STORE_FORM_DATA':
+        console.log('Form has been saved!')
 
         break
 
-      case 'getDocument':
-        res.send(response)
+      case 'SEND_FORM_DATA':
+        console.log('Sending form!')
+        formatted_json = jsonParser(response[0], "FORM")
+
+        res.send(formatted_json)
 
         break
 
-      case 'getAllDocuments':
-        sortedDocuments = sortJsonArray(response, '_ts', 'des')
-        res.send(JSON.stringify(sortedDocuments))
+      case 'SEND_ALL_FORM_DATA':
+        console.log('Sending all forms!')
+        formatted_json = jsonParser(response[0], "FORMS")
+
+        res.send(JSON.stringify(formatted_json))
 
         break
+
       case 'updateDocument':
-        console.log(response)
+        console.log('Form updated!')
 
         break
-      case 'deleteDocument':
-        console.log(response)
+
+      case 'DELETE_FORM_DATA':
+        console.log('Form deleted!')
+
         break
+
       default:
         console.log('Sorry, unable to process api call')
     }

@@ -3,34 +3,38 @@ import React, { Component } from 'react';
 class TableEntries extends Component {
 
   render(){
-    const forms = this.props.forms
+    const allForms = this.props.forms
+    const forms = allForms.FORMS
     const formList = []
 
-    var handleDelete = (id, index) => {
+    var handleDelete = (guid, index) => {
       if(index !== -1)
         forms.splice(index, 1)
 
-      this.props.deleteForm(id);
-      this.props.removeEntry(forms)
+      this.props.deleteForm(guid);
+      this.props.removeEntry(allForms)
     }
 
-    if(forms.length > 0){
-      forms.forEach(function(form, index){
-        var bscid = <td key={(index + 1).toString()}>{form['form']['bscid']}</td>
-        var name = <td key={(index + 2).toString()}>{form['form']['firstName'] +' '+ form['form']['lastName']}</td>
-        var request = <td key={(index + 3).toString()}>{form['form']['request']}</td>
-        var stage = <td key={(index + 4).toString()}>{form['form']['stage']} submitted</td>
-        var ts = <td key={(index + 5).toString()}>{form['form']['date']}</td>
-        var deleteBtn = <td key={(index + 6).toString()}><button value={form['id'], index} onClick={(e) => handleDelete(form['id'], index)} className="btn btn-danger" type="button">X</button></td>
+    if(Array.isArray(forms)){
+      if(forms.length > 0){
+        forms.forEach(function(form, index){
+          var bscid = <td key={(index + 1).toString()}>{form['BSCID']}</td>
+          var name = <td key={(index + 2).toString()}>{form['FIRST_NAME'] +' '+ form['LAST_NAME']}</td>
+          var request = <td key={(index + 3).toString()}>{form['REQUEST']}</td>
+          // var stage = <td key={(index + 4).toString()}>{form['FORMS']['stage']} submitted</td>
+          var ts = <td key={(index + 5).toString()}>{form['TIME_STAMP']}</td>
+          var deleteBtn = <td key={(index + 6).toString()}><button value={form['GUID'], index} onClick={(e) => handleDelete(form['GUID'], index)} className="btn btn-danger" type="button">X</button></td>
 
-        formList.push(<tr key={(index).toString()}>{bscid}{name}{request}{stage}{ts}{deleteBtn}</tr>)
-      });
-      return(
-        <tbody>
-          { formList }
-        </tbody>
-      );
+          formList.push(<tr key={(index).toString()}>{bscid}{name}{request}{ts}{deleteBtn}</tr>)
+        });
+        return(
+          <tbody>
+            { formList }
+          </tbody>
+        );
+      }
     }
+
     else {
       return(
         <tfoot>
