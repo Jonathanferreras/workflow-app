@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Manager extends Component {
+class Approver extends Component {
   constructor(props){
     super(props);
 
@@ -45,7 +45,7 @@ class Manager extends Component {
       result.push(<textarea key={"2"} id="comment" rows={3} name="comment" className="form-control" value={ this.state.comment } />);
     }
 
-    if(this.state.stage === 'manager') {
+    if(this.state.stage === 1) {
       return(
         <div>
           <div className="col-xs-12" onChange={ this.passPropsToParent }><br />
@@ -69,4 +69,4 @@ class Manager extends Component {
   }
 }
 
-export default Manager;
+export default Approver;

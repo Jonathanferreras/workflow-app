@@ -31,7 +31,7 @@ class Form extends Component {
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({ guid : this.props.id, action: 'SEND_FORM_DATA' })
+      body: JSON.stringify({ guid : this.props.userId, action: 'SEND_FORM_DATA' })
    }
 
     await fetch('/api', options)
@@ -76,8 +76,6 @@ class Form extends Component {
 
   handlePropsFromChild = (props) => {
     const state = this.state.pastFormData
-    console.log(state['form'])
-    console.log(props)
 
     function merge (a, b) {
       for(var key in props) {
@@ -86,9 +84,8 @@ class Form extends Component {
       return state
     }
 
-    var newFormData = merge(state['form'], props)
+    var newFormData = merge(state['FORM'], props)
     this.setState({ formData: newFormData });
-    console.log(this.state.newFormData)
    }
 
   handleSubmit = (event) => {
@@ -105,7 +102,7 @@ class Form extends Component {
 
   render(){
     var props = {
-      id: this.props.id,
+      userId: this.props.userId,
       pastFormData: this.state.pastFormData,
       stage: this.state.stage,
       recievePropsFromChild: this.handlePropsFromChild

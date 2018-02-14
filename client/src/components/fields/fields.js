@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import User            from './user';
-import Manager         from './manager';
-import BusinessOwner   from './businessOwner';
+import Approver        from './approver';
 
 class Fields extends Component {
    passPropsToParent = (props) => {
@@ -10,16 +9,14 @@ class Fields extends Component {
    }
 
   render(){
-    let components = {}
+    let components = []
 
     const user = <div><User {...this.props}/></div>
-    const manager = <div>{ user }<Manager {...this.props}/></div>
-    const businessOwner = <div>{ manager }<BusinessOwner {...this.props}/></div>
+    const approver = <div>{ user }<Approver {...this.props}/></div>
 
-    components['user'] = user;
-    components['manager'] = manager;
-    components['businessOwner'] = businessOwner;
- 
+    components[0] = user;
+    components[1] = approver;
+
     return(
       <div>
         { components[this.props.stage] }

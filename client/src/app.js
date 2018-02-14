@@ -7,10 +7,10 @@ import Admin from './components/admin/admin';
 class App extends Component {
   render(){
     const home = () => {
-      return <Form stage='user'/>
+      return <Form stage={ 0 }/>
     }
     const returnStage = ({ match }) => {
-      return <Form stage={ match.params.stage } id={ match.params.id } />
+      return <Form stage={ Number(match.params.stage) } userId={ match.params.userId } />
     }
 
     const admin = () => {
@@ -20,7 +20,7 @@ class App extends Component {
     return(
       <div>
         <Route exact path="/" component={ home }/>
-        <Route path="/:stage/:id" component={ returnStage }/>
+        <Route path="/:stage/user=:userId" component={ returnStage }/>
         <Route path="/admin" component={ admin }/>
       </div>
     );

@@ -38,7 +38,7 @@ class User extends Component {
   }
 
   render(){
-    if(this.props.stage === 'user'){
+    if(this.props.stage === 0){
       return(
         <div>
           <div className="form-group col-xs-6">

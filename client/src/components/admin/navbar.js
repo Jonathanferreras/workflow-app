@@ -12,10 +12,14 @@ class Navbar extends Component {
 
   componentWillReceiveProps(nextProps){
     const formsLen = nextProps.forms.FORMS.length
+    const newForms = nextProps.newForms.FORMS
 
-    if(nextProps.newForms.length > this.state.submissions){
-      const newFormsLen = (nextProps.newForms.length - nextProps.forms.FORMS.length)
-      this.setState({newSubmissions: newFormsLen})
+    if(Array.isArray(newForms)){
+      console.log(newForms.length)
+      if(newForms.length > this.state.submissions){
+        const newFormsLen = (newForms.length - formsLen)
+        this.setState({newSubmissions: newFormsLen})
+      }
     }
 
     this.setState({submissions: formsLen})
@@ -81,9 +85,11 @@ class Navbar extends Component {
               <i className="fa fa-refresh"></i>
             </button>
           </div>
+          {/* 
           <div style={ Style.search }>
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
           </div>
+          */}
         </nav>
         <div style={ Style.submissions }>
           <span>Submissions: { this.state.submissions } </span>

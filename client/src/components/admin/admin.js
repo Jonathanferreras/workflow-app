@@ -21,11 +21,11 @@ class Admin extends Component {
   }
 
   componentDidMount(){
-    // const state = !(this.state.state)
-    // setInterval(() => {
-    //   this.getAllForms(state)
-    //   console.log('checking...');
-    // }, 5000)
+    const state = !(this.state.state)
+    setInterval(() => {
+      this.getAllForms(state)
+      console.log('checking...');
+    }, 10000)
   }
 
   getAllForms = async (state) => {
@@ -40,11 +40,12 @@ class Admin extends Component {
       await fetch('/api', options)
       .then(res => { return res.json() })
       .then(data => {
+        console.log(data)
         if(data.error){
           this.setState({error404: true})
         }
         else {
-          if(data.length > this.state.forms.length)
+          if(data.FORMS.length > this.state.forms.FORMS.length)
             this.setState({newForms: data})
         }
       })
@@ -53,7 +54,7 @@ class Admin extends Component {
       await fetch('/api', options)
       .then(res => { return res.json() })
       .then(data => {
-        // console.log(data)
+        console.log(data)
         if(data.error){
           this.setState({error404: true})
         }
@@ -79,7 +80,7 @@ class Admin extends Component {
   }
 
   handleRemoveEntry = (props) => {
-    this.setState({ forms: props })
+    this.setState({ forms: props, newForms: '' })
   }
 
   handleUpdateForms = (props) => {
