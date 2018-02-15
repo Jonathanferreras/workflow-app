@@ -50,7 +50,7 @@ class Navbar extends Component {
         borderRadius: "25px",
         border: "0.5px solid #576574"
       },
-      newSubmissionsTex: {
+      newSubmissionsText: {
         fontSize: "0.7em"
       },
       refresh: {
@@ -85,7 +85,7 @@ class Navbar extends Component {
               <i className="fa fa-refresh"></i>
             </button>
           </div>
-          {/* 
+          {/*
           <div style={ Style.search }>
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
           </div>

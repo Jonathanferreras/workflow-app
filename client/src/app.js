@@ -1,30 +1,22 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
-import Form  from './components/form/form';
-import Admin from './components/admin/admin';
+// import Form  from './components/form/form'
+import Form from './components/test/form'
+import Admin from './components/admin/admin'
 
-class App extends Component {
+export default class App extends Component {
   render(){
-    const home = () => {
-      return <Form stage={ 0 }/>
-    }
-    const returnStage = ({ match }) => {
-      return <Form stage={ Number(match.params.stage) } userId={ match.params.userId } />
-    }
-
-    const admin = () => {
-      return <Admin />
-    }
+    const admin = () => { return <Admin /> }
+    const submission_form = () => { return <Form status_code={ 100 }/> }
+    const approval_form = ({ match }) => { return <Form status_code={ 102 } formId={ match.params.formId } /> }
 
     return(
       <div>
-        <Route exact path="/" component={ home }/>
-        <Route path="/:stage/user=:userId" component={ returnStage }/>
+        <Route exact path="/" component={ submission_form }/>
+        <Route path="/form=:formId" component={ approval_form }/>
         <Route path="/admin" component={ admin }/>
       </div>
-    );
+    )
   }
 }
-
-export default App;
