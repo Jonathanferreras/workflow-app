@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import SubmissionForm from './submissionForm'
 import ApprovalForm from './approvalForm'
-// import WorkflowTracker from './workflowTracker';
-// import Fields          from '../fields/fields';
-import SubmitButton    from './submitButton'
 
 export default class Form extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       status_code: this.props.status_code,
@@ -16,14 +13,14 @@ export default class Form extends Component {
       pastFormData: {},
       error404: false,
       key: 1
-    };
+    }
 
-    this.init = this.state;
+    this.init = this.state
   }
 
   componentWillMount(){
     if(this.props.status_code !== 100)
-      this.getForm();
+      this.getForm()
   }
 
   getForm = async () => {
@@ -42,28 +39,28 @@ export default class Form extends Component {
         this.setState({error404: true})
       }
       else {
-        this.setState({ pastFormData: data });
+        this.setState({ pastFormData: data })
       }
-    });
+    })
    }
 
   postForm = () => {
-    var dt = new Date();
-    var utcDate = dt.toISOString();
+    var dt = new Date()
+    var utcDate = dt.toISOString()
 
-    var state = this.state.formData;
-    state['time_stamp'] = utcDate;
+    var state = this.state.formData
+    state['time_stamp'] = utcDate
+
     if(this.state.status_code === 102){
-      // state['action'] = 'UPDATE_FORM_DATA'
-      state['status_code'] = this.state.status_code + state['option']
-
+      var option = state['option']
+      var updated_status = this.state.status_code + option
+      state['action'] = 'UPDATE_FORM_DATA'
+      state['status_code'] = updated_status
     }
     else{
       state['action'] = 'STORE_FORM_DATA'
       state['status_code'] = this.state.status_code + 1
     }
-
-    state['status_code'] = this.state.status_code
 
     const options = {
       method: 'POST',
@@ -74,8 +71,8 @@ export default class Form extends Component {
     }
 
     fetch('/api', options)
-    .catch(err => alert("Oops an error occurred!"));
-  };
+    .catch(err => alert("Oops an error occurred!"))
+  }
 
   handlePropsFromChild = (props) => {
     const state = this.state.pastFormData
@@ -88,19 +85,20 @@ export default class Form extends Component {
     }
 
     var newFormData = merge(state['FORM'], props)
-    this.setState({ formData: newFormData });
+    this.setState({ formData: newFormData })
    }
 
   handleSubmit = (event) => {
     console.log("submitting")
-    event.preventDefault();
-    this.postForm();
+    event.preventDefault()
+    this.postForm()
     alert("Your form has been submitted!")
-    this.resetForm();
+    this.resetForm()
    }
 
   resetForm = () => {
-    this.setState({ key: -(this.state.key) });
+    if(this.state.status_code === 102)
+      this.setState({ key: -(this.state.key) })
    }
 
   render(){
@@ -129,7 +127,9 @@ export default class Form extends Component {
                   </div>
                   <SubmissionForm {...props}/>
                   <ApprovalForm {...props}/>
-                  <SubmitButton/>
+                  <div className="form-group col-xs-12">
+                    <button type="submit" value="Submit" className="btn btn-primary btn-lg btn-block">Submit</button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default class Form extends Component {
             */}
           </div>
         </div>
-      );
+      )
     }
   }
 }

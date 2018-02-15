@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class SubmissionForm extends Component {
   constructor(props){
@@ -18,6 +18,7 @@ export default class SubmissionForm extends Component {
 
   componentWillReceiveProps(nextProps){
     if(this.props.status_code !== 100){
+      this.loadingAlert(false)
       this.setState({
         bscid: nextProps.pastFormData.FORM.BSCID,
         email: nextProps.pastFormData.FORM.EMAIL,
@@ -25,17 +26,28 @@ export default class SubmissionForm extends Component {
         last_name: nextProps.pastFormData.FORM.LAST_NAME,
         manager_email: nextProps.pastFormData.FORM.MANAGER_EMAIL,
         request: nextProps.pastFormData.FORM.REQUEST
-      });
+      })
     }
   }
 
   passPropsToParent = (event) => {
-    const state = this.state;
+    const state = this.state
     state[event.target.name] = event.target.value
 
     this.setState(state)
     //passes data back to form component
-    this.props.recievePropsFromChild(this.state);
+    this.props.recievePropsFromChild(this.state)
+  }
+
+  loadingAlert = (fields) => {
+    let alert;
+
+    if(fields && fields.includes(''))
+      alert = <div className="alert alert-info col-xs-12" role="alert"> Loading...</div>
+    else
+      alert = <div/>
+
+    return alert
   }
 
   render(){
@@ -70,19 +82,22 @@ export default class SubmissionForm extends Component {
       )
     }
     else {
+      var alert = this.loadingAlert([this.state.bscid, this.state.first_name, this.state.last_name, this.state.request])
+
       return(
         <div>
+          { alert }
           <div className="form-group col-xs-6">
             <label htmlFor="bscid">BSC ID</label><br />
-            <input id="bscid" type="text" readOnly value={ this.state.bscid } className="form-control"  />
+            <input id="bscid" type="text" readOnly value={ this.state.bscid } className="form-control"/>
           </div>
           <div className="form-group col-xs-6">
             <label htmlFor="name">Name</label><br />
-            <input id="name" type="text" readOnly value={ this.state.first_name+' '+this.state.last_name } className="form-control" />
+            <input id="name" type="text" readOnly value={ this.state.first_name +' '+ this.state.last_name } className="form-control"/>
           </div>
           <div className="form-group col-xs-12">
             <label htmlFor="request">Request</label><br />
-            <textarea id="request" rows={3} readOnly className="form-control" value={ this.state.request } />
+            <textarea id="request" rows={3} readOnly value={ this.state.request } className="form-control"/>
           </div>
         </div>
       )

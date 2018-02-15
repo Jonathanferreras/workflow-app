@@ -24,7 +24,7 @@ class Admin extends Component {
     const state = !(this.state.state)
     setInterval(() => {
       this.getAllForms(state)
-      console.log('checking...');
+      console.log('checking...')
     }, 10000)
   }
 

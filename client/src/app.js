@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-// import Form  from './components/form/form'
-import Form from './components/test/form'
+import Form from './components/forms/form'
 import Admin from './components/admin/admin'
 
 export default class App extends Component {
