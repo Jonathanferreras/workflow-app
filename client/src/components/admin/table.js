@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import TableEntries from './tableEntries';
 
-class Table extends Component {
+export default class Table extends Component {
   receivePropsFromChild(childProps){
     this.passPropsToParent(childProps)
   }
@@ -10,6 +10,7 @@ class Table extends Component {
   handledeleteForm(formid){
     this.deleteForm(formid)
   }
+
   render(){
     const Style = {
       table: {
@@ -19,16 +20,20 @@ class Table extends Component {
         textAlign: "center"
       }
     }
+
     return(
       <table style={ Style.table } className="table">
         <thead className="thead-inverse">
           <tr>
             <th style={Style.th}>BSCID</th>
-            <th style={Style.th}>Name</th>
-            <th style={Style.th}>Request</th>
-            <th style={Style.th}>Stage</th>
-            <th style={Style.th}>Date</th>
-            <th style={Style.th}>Remove</th>
+            <th style={Style.th}>NAME</th>
+            <th style={Style.th}>REQUEST</th>
+            <th style={Style.th}>STATUS</th>
+            <th style={Style.th}>APPROVED_BY</th>
+            <th style={Style.th}>DENIED_BY</th>
+            <th style={Style.th}>COMMENTS</th>
+          {/*  <th style={Style.th}>DATE</th> */}
+            <th style={Style.th}>REMOVE</th>
           </tr>
         </thead>
         <TableEntries {...this.props }/>
@@ -36,5 +41,3 @@ class Table extends Component {
     );
   }
 }
-
-export default Table;

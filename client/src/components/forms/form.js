@@ -29,7 +29,7 @@ export default class Form extends Component {
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({ guid : this.props.formId, action: 'SEND_FORM_DATA' })
+      body: JSON.stringify({ uid : this.props.formId, action: 'SEND_FORM_DATA' })
    }
 
     await fetch('/api', options)
@@ -45,17 +45,16 @@ export default class Form extends Component {
    }
 
   postForm = () => {
+    var state = this.state.formData
+
     var dt = new Date()
     var utcDate = dt.toISOString()
-
-    var state = this.state.formData
     state['time_stamp'] = utcDate
 
+    //update status code on submission
     if(this.state.status_code === 102){
-      var option = state['option']
-      var updated_status = this.state.status_code + option
       state['action'] = 'UPDATE_FORM_DATA'
-      state['status_code'] = updated_status
+      state['status_code'] = this.state.status_code + Number(state['option'])
     }
     else{
       state['action'] = 'STORE_FORM_DATA'
@@ -97,7 +96,7 @@ export default class Form extends Component {
    }
 
   resetForm = () => {
-    if(this.state.status_code === 102)
+    if(this.state.status_code === 100)
       this.setState({ key: -(this.state.key) })
    }
 
@@ -116,14 +115,13 @@ export default class Form extends Component {
 
     else {
       return(
-        <div className="container" key={ this.state.key }>{/* Used to reset form fields */}
+        <div className="container" key={ this.state.key }>{/* key is used to reset form fields */}
           <div className="table-row row">
             <div className="col-xs-8 col-md-8">
               <div className="form-row">
                 <form method="post" onSubmit={ this.handleSubmit }>
                   <div className="col-xs-12">
                     <h1>Form</h1>
-                    {/*<p>Fill out all fields.</p>*/}
                   </div>
                   <SubmissionForm {...props}/>
                   <ApprovalForm {...props}/>

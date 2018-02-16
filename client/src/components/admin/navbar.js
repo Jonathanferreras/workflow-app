@@ -15,7 +15,6 @@ class Navbar extends Component {
     const newForms = nextProps.newForms.FORMS
 
     if(Array.isArray(newForms)){
-      console.log(newForms.length)
       if(newForms.length > this.state.submissions){
         const newFormsLen = (newForms.length - formsLen)
         this.setState({newSubmissions: newFormsLen})

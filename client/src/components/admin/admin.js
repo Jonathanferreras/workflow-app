@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Navbar from './navbar'
 import Table from './table'
 
-class Admin extends Component {
+export default class Admin extends Component {
   constructor(){
     super()
 
@@ -24,7 +24,6 @@ class Admin extends Component {
     const state = !(this.state.state)
     setInterval(() => {
       this.getAllForms(state)
-      console.log('checking...')
     }, 10000)
   }
 
@@ -40,7 +39,6 @@ class Admin extends Component {
       await fetch('/api', options)
       .then(res => { return res.json() })
       .then(data => {
-        console.log(data)
         if(data.error){
           this.setState({error404: true})
         }
@@ -54,7 +52,6 @@ class Admin extends Component {
       await fetch('/api', options)
       .then(res => { return res.json() })
       .then(data => {
-        console.log(data)
         if(data.error){
           this.setState({error404: true})
         }
@@ -65,14 +62,14 @@ class Admin extends Component {
     }
   }
 
-  handleDeleteForm = (guid) => {
-    const formid = guid
+  handleDeleteForm = (uid) => {
+    const formid = uid
     const options = {
       method: 'POST',
       headers: new Headers({ "Content-Type": "application/json" }),
       mode: 'cors',
       cache: 'default',
-      body: JSON.stringify({ guid: formid, action: 'DELETE_FORM_DATA' })
+      body: JSON.stringify({ uid: formid, action: 'DELETE_FORM_DATA' })
    }
 
    fetch('/api', options)
@@ -88,16 +85,13 @@ class Admin extends Component {
     this.getAllForms()
   }
 
-  resetForm = () => {
-    this.setState({key: -(this.state.key)})
-  }
-
   render(){
     const Style = {
       WebkitBoxShadow: "0px 10px 5px 4px rgba(0,0,0,0.05)",
       MozBoxShadow: "0px 10px 5px 4px rgba(0,0,0,0.05)",
       boxShadow: "0px 10px 5px 4px rgba(0,0,0,0.05)",
-      padding: "0"
+      padding: "0",
+
     }
 
     var props = {
@@ -116,5 +110,3 @@ class Admin extends Component {
     )
   }
 }
-
-export default Admin
